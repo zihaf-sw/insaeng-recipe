@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="AI 안부전화로 찾은 어르신의 생활 지혜를 청년 클래스로 잇는 인생레시피 (공모전 아이디어 시연용 목업)">
+<title>인생레시피</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=Nanum+Pen+Script&display=swap">
+<style>
+/* Layout: 한 장씩 넘기는 레시피 노트 — 좁은 본문 열 + 손글씨 카드가 옆에 붙는 비대칭 구성 */
+:root {
+  --paper: #F5F4EE;        /* 한지 */
+  --paper-2: #ECEAE1;
+  --ink: #1D2433;          /* 먹 */
+  --ink-soft: #545B69;
+  --indigo: #2B4A7E;       /* 쪽빛 */
+  --indigo-soft: #DCE3EF;
+  --gardenia: #E3A92B;     /* 치자 */
+  --gardenia-soft: #F7E8C4;
+  --line: #D6D3C7;
+  --card: #FFFEFA;
+  --ok: #3D7A55;
+  --f-display: "Gowun Batang", "Batang", "AppleMyungjo", serif;
+  --f-body: "IBM Plex Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  --f-hand: "Nanum Pen Script", "Gowun Batang", cursive;
+  --maxw: 1120px;
+  --r: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #151A24; --paper-2: #1B2130; --ink: #ECEAE3; --ink-soft: #A9AFBC;
+    --indigo: #8FB0E6; --indigo-soft: #24314A; --gardenia: #F0BD4F; --gardenia-soft: #3A3120;
+    --line: #2E3546; --card: #1E2433; --ok: #7CC196; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #151A24; --paper-2: #1B2130; --ink: #ECEAE3; --ink-soft: #A9AFBC;
+  --indigo: #8FB0E6; --indigo-soft: #24314A; --gardenia: #F0BD4F; --gardenia-soft: #3A3120;
+  --line: #2E3546; --card: #1E2433; --ok: #7CC196; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.7; margin: 0; }
+.wrap { max-width: var(--maxw); margin: 0 auto; padding-inline: 20px; }
+h1, h2, h3 { font-family: var(--f-display); line-height: 1.3; text-wrap: balance; margin: 0; font-weight: 700; }
+p { margin: 0; }
+a { color: var(--indigo); }
+button { font: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--gardenia); outline-offset: 2px; }
+.eyebrow { font-size: 13px; letter-spacing: .08em; color: var(--indigo); font-weight: 600; }
+.hand { font-family: var(--f-hand); }
+
+/* 목업 안내 */
+.notice { background: var(--ink); color: var(--paper); font-size: 13px; text-align: center; padding: 8px 16px; }
+
+/* 헤더 */
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.logo { font-family: var(--f-display); font-size: 22px; font-weight: 700; color: var(--ink); text-decoration: none; display: flex; align-items: baseline; gap: 8px; }
+.logo small { font-family: var(--f-hand); font-size: 20px; color: var(--gardenia); font-weight: 400; }
+nav.links { display: flex; gap: 22px; font-size: 15px; }
+nav.links a { color: var(--ink-soft); text-decoration: none; }
+nav.links a:hover { color: var(--ink); }
+@media (max-width: 760px) { nav.links { display: none; } }
+.btn { display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: var(--r); padding: 12px 20px; font-weight: 600; font-size: 15px; text-decoration: none; }
+.btn-primary { background: var(--indigo); color: var(--paper); }
+.btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.btn-sm { padding: 8px 14px; font-size: 14px; }
+
+/* 히어로 */
+.hero { padding-block: 64px 72px; }
+.hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; align-items: center; }
+@media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; gap: 40px; } }
+.hero h1 { font-size: clamp(34px, 5.4vw, 58px); letter-spacing: -.01em; }
+.hero h1 em { font-style: normal; color: var(--indigo); }
+.hero .lead { font-size: 18px; color: var(--ink-soft); margin-top: 20px; max-width: 34em; }
+.hero .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+
+/* 레시피 카드 (손글씨) */
+.recipe {
+  background: var(--card); border: 1px solid var(--line); border-radius: 2px; padding: 28px 28px 24px;
+  box-shadow: 0 1px 0 var(--line), 0 18px 40px -24px rgba(29,36,51,.35);
+  background-image: repeating-linear-gradient(to bottom, transparent 0 33px, var(--line) 33px 34px);
+  background-position: 0 70px; position: relative; transform: rotate(-1.2deg);
+}
+.recipe .tape { position: absolute; top: -12px; left: 50%; width: 110px; height: 26px; transform: translateX(-50%) rotate(2deg); background: var(--gardenia-soft); opacity: .9; }
+.recipe .who { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: var(--ink-soft); }
+.recipe h3 { font-family: var(--f-hand); font-weight: 400; font-size: 38px; line-height: 1.1; margin-top: 10px; color: var(--ink); }
+.recipe ol { font-family: var(--f-hand); font-size: 25px; line-height: 34px; margin: 12px 0 0; padding-left: 26px; }
+.recipe .memo { font-family: var(--f-hand); font-size: 23px; color: var(--indigo); margin-top: 8px; line-height: 1.3; }
+.recipe .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 4px 10px; border-radius: 999px; background: var(--paper-2); color: var(--ink-soft); border: 1px solid transparent; }
+.chip.ind { background: var(--indigo-soft); color: var(--indigo); }
+.chip.gar { background: var(--gardenia-soft); color: var(--ink); }
+
+section.block { padding-block: 80px; border-top: 1px solid var(--line); }
+.head { max-width: 40em; margin-bottom: 40px; }
+.head h2 { font-size: clamp(26px, 3.4vw, 38px); margin-top: 8px; }
+.head p { color: var(--ink-soft); margin-top: 12px; font-size: 17px; }
+
+/* 전화 → 레시피: 데모 */
+.demo { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+@media (max-width: 900px) { .demo { grid-template-columns: 1fr; } }
+.call { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; min-width: 0; }
+.call-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--ink-soft); }
+.live { display: inline-flex; align-items: center; gap: 6px; color: var(--ok); font-weight: 600; }
+.live::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
+.lines { padding: 18px; display: grid; gap: 12px; }
+.line { display: grid; grid-template-columns: 52px 1fr; gap: 10px; font-size: 15px; }
+.line .sp { font-size: 12px; color: var(--ink-soft); padding-top: 3px; }
+.line.ai .tx { color: var(--ink-soft); }
+mark.tag { background: transparent; color: inherit; border-bottom: 2px solid var(--gardenia); padding: 0 1px; transition: background .2s; }
+mark.tag.story { border-bottom-color: var(--indigo); }
+.demo.on mark.tag { background: var(--gardenia-soft); }
+.demo.on mark.tag.story { background: var(--indigo-soft); }
+.extract { display: grid; gap: 16px; min-width: 0; }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; }
+.panel h3 { font-family: var(--f-body); font-size: 14px; font-weight: 600; color: var(--ink-soft); margin-bottom: 12px; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.gen { font-family: var(--f-display); font-size: 20px; line-height: 1.45; }
+.gen small { display: block; font-family: var(--f-body); font-size: 14px; color: var(--ink-soft); margin-top: 8px; line-height: 1.6; }
+.safety { display: flex; gap: 10px; align-items: center; font-size: 14px; }
+.lamp { display: inline-flex; gap: 4px; }
+.lamp i { width: 12px; height: 12px; border-radius: 50%; background: var(--paper-2); border: 1px solid var(--line); }
+.lamp i.y { background: var(--gardenia); border-color: var(--gardenia); }
+.demo-ctrl { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; font-size: 14px; color: var(--ink-soft); }
+
+/* 흐름 */
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--line); border-radius: var(--r); background: var(--card); }
+@media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .steps { grid-template-columns: 1fr; } }
+.step { padding: 22px; border-right: 1px solid var(--line); min-width: 0; }
+.step:last-child { border-right: 0; }
+@media (max-width: 900px) { .step { border-bottom: 1px solid var(--line); } }
+.step .n { font-family: var(--f-display); font-size: 15px; color: var(--gardenia); font-weight: 700; }
+.step h3 { font-size: 19px; margin-top: 6px; }
+.step p { font-size: 14.5px; color: var(--ink-soft); margin-top: 8px; }
+
+/* 클래스 목록 */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.filters button { border: 1px solid var(--line); background: var(--card); color: var(--ink-soft); padding: 8px 14px; border-radius: 999px; font-size: 14px; }
+.filters button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.classes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+@media (max-width: 980px) { .classes { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 620px) { .classes { grid-template-columns: 1fr; } }
+.cls { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 22px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.cls .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.cls .teacher { display: flex; align-items: center; gap: 12px; }
+.avatar { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-family: var(--f-display); font-weight: 700; font-size: 18px; background: var(--indigo-soft); color: var(--indigo); flex: none; }
+.cls .name { font-weight: 600; font-size: 15px; line-height: 1.3; }
+.cls .name span { display: block; font-weight: 400; font-size: 13px; color: var(--ink-soft); }
+.cls h3 { font-size: 19px; }
+.cls .story { font-family: var(--f-hand); font-size: 22px; line-height: 1.3; color: var(--indigo); }
+.cls .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 8px; padding-top: 12px; border-top: 1px dashed var(--line); font-size: 14px; }
+.price { font-weight: 600; font-variant-numeric: tabular-nums; }
+.seats { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+/* 고민 매칭 */
+.match { display: grid; grid-template-columns: .9fr 1.1fr; gap: 28px; align-items: start; }
+@media (max-width: 900px) { .match { grid-template-columns: 1fr; } }
+.worries { display: grid; gap: 10px; }
+.worries button { text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; color: var(--ink); font-size: 15px; }
+.worries button[aria-pressed="true"] { border-color: var(--indigo); box-shadow: inset 3px 0 0 var(--indigo); }
+.result { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 26px; min-width: 0; }
+.result .why { font-size: 14px; color: var(--ink-soft); margin-top: 14px; padding: 12px 14px; background: var(--paper-2); border-radius: var(--r); }
+.result .why b { color: var(--ink); }
+.result h3 { font-size: 22px; margin-top: 14px; }
+.result .quote { font-family: var(--f-hand); font-size: 26px; line-height: 1.3; color: var(--indigo); margin-top: 12px; }
+
+/* 키트 & 트랙 */
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 860px) { .two { grid-template-columns: 1fr; } }
+.kit { background: var(--ink); color: var(--paper); border-radius: var(--r); padding: 32px; display: flex; flex-direction: column; gap: 16px; }
+.kit h3 { font-size: 26px; }
+.kit ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.kit li { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,.14); font-size: 15px; }
+.kit li span:last-child { color: var(--gardenia); white-space: nowrap; }
+.kit .total { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.kit .total b { font-family: var(--f-display); font-size: 30px; color: var(--gardenia); font-variant-numeric: tabular-nums; }
+.kit .total s { color: rgba(255,255,255,.5); font-size: 15px; margin-right: 8px; }
+.tracks { display: grid; gap: 16px; }
+.track { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 24px; }
+.track .ttl { display: flex; align-items: baseline; gap: 10px; }
+.track .ttl b { font-family: var(--f-display); font-size: 30px; color: var(--indigo); }
+.track p { color: var(--ink-soft); margin-top: 8px; font-size: 15px; }
+
+/* 안전 & 영향 */
+.trust { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+@media (max-width: 860px) { .trust { grid-template-columns: 1fr; } }
+.trust div h3 { font-size: 18px; }
+.trust div p { color: var(--ink-soft); margin-top: 8px; font-size: 15px; }
+.goals { margin-top: 48px; overflow-x: auto; }
+.goals table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 520px; }
+.goals th, .goals td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--line); }
+.goals th { font-size: 13px; color: var(--ink-soft); font-weight: 600; }
+.goals td:last-child { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+/* 기관 */
+.org { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+@media (max-width: 860px) { .org { grid-template-columns: 1fr; } }
+.org ul { margin: 16px 0 0; padding-left: 20px; color: var(--ink-soft); }
+form.ask { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 24px; display: grid; gap: 14px; }
+form.ask label { display: grid; gap: 6px; font-size: 14px; font-weight: 500; }
+form.ask input, form.ask select, form.ask textarea { font: inherit; font-size: 15px; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--r); background: var(--paper); color: var(--ink); width: 100%; }
+.sent { font-size: 14px; color: var(--ok); }
+
+footer { border-top: 1px solid var(--line); padding-block: 40px; font-size: 13.5px; color: var(--ink-soft); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .recipe { transition: transform .4s ease; }
+  .recipe:hover { transform: rotate(0deg); }
+}
+</style>
+</head>
+<body>
+
+<div class="notice">공모전 아이디어 시연용 목업입니다. 페이지에 나오는 인물, 수업, 가격, 수치는 모두 예시입니다.</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#top">인생레시피 <small>할머니의 지혜 배달</small></a>
+    <nav class="links" aria-label="주요 메뉴">
+      <a href="#how">선생님이 되는 법</a>
+      <a href="#classes">클래스</a>
+      <a href="#match">고민으로 찾기</a>
+      <a href="#org">기관 제휴</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="#classes">클래스 둘러보기</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">청년과 어르신을 잇는 생활 지혜 클래스</p>
+        <h1 style="margin-top:14px">할머니의 <em>60년 김장</em>이<br>당신의 첫 자취 밥상이 됩니다</h1>
+        <p class="lead">인생레시피는 AI 안부전화로 동네 어르신의 경험과 이야기를 찾아내고, 그 지혜를 배우고 싶은 청년과 이어 드립니다. 어르신은 전화 한 통으로 선생님이 되고, 청년은 믿을 수 있는 어른을 만납니다.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#classes">이번 주 클래스 보기</a>
+          <a class="btn btn-ghost" href="#how">어르신이 선생님이 되는 과정</a>
+        </div>
+      </div>
+      <article class="recipe" aria-label="예시 인생레시피 카드">
+        <span class="tape" aria-hidden="true"></span>
+        <div class="who"><span>이순자 선생님 · 81세 · 강원 정선</span><span>인생레시피 No.0127</span></div>
+        <h3>자취생 3일 김치</h3>
+        <ol>
+          <li>알배추 반 통, 소금 두 줌</li>
+          <li>고춧가루·액젓·다진 마늘 1:1:1</li>
+          <li>버무려서 반찬통에 꾹꾹</li>
+        </ol>
+        <p class="memo">"시집와서 60년, 손주 셋 이걸로 키웠어.<br>실패할 게 없어, 걱정 말아."</p>
+        <div class="meta">
+          <span class="chip ind">화상 · 같이 만들기</span>
+          <span class="chip gar">재료 3개</span>
+          <span class="chip">보관법 포함</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="block" id="how">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">어르신이 선생님이 되는 과정</p>
+        <h2>앱도 가입도 필요 없어요. 안부전화 한 통이면 됩니다</h2>
+        <p>AI가 매주 안부를 여쭙는 대화 속에서 어르신이 잘하시는 것과 그 뒤에 있는 이야기를 찾아냅니다. 아래는 실제 흐름을 보여 주는 예시 통화입니다.</p>
+      </div>
+
+      <div class="demo" id="demo">
+        <div class="call">
+          <div class="call-top"><span>AI 안부전화 · 화요일 오전 10:00</span><span class="live">통화 중</span></div>
+          <div class="lines">
+            <div class="line ai"><span class="sp">AI</span><span class="tx">순자 님, 지난주에 무릎 아프다 하셨는데 좀 어떠세요?</span></div>
+            <div class="line"><span class="sp">어르신</span><span class="tx">많이 나았어. 근데 요즘 <mark class="tag story">누가 내 김치를 먹어주나</mark> 싶어. 애들이 다 서울 가고.</span></div>
+            <div class="line ai"><span class="sp">AI</span><span class="tx">김치 솜씨가 좋으신가 봐요. 언제부터 담그셨어요?</span></div>
+            <div class="line"><span class="sp">어르신</span><span class="tx"><mark class="tag story">시집와서 60년</mark>이지. <mark class="tag">손주 셋</mark> 다 내 <mark class="tag">김치랑 장아찌</mark>로 키웠어. <mark class="tag">배추 반 통으로 사흘이면 먹는 거</mark>, 그게 제일 쉬워.</span></div>
+            <div class="line ai"><span class="sp">AI</span><span class="tx">서울에 혼자 사는 대학생들이 그런 걸 정말 배우고 싶어 해요. 화면으로 같이 담가 보시겠어요?</span></div>
+            <div class="line"><span class="sp">어르신</span><span class="tx">아이고, 나 같은 사람이 뭘 가르쳐. <mark class="tag story">그래도 누가 먹는다면야</mark> 해 보지.</span></div>
+          </div>
+        </div>
+
+        <div class="extract">
+          <div class="panel">
+            <h3>AI가 찾아낸 재능과 이야기</h3>
+            <div class="tags">
+              <span class="chip gar">김치·장아찌</span>
+              <span class="chip gar">간편 반찬</span>
+              <span class="chip gar">손주 육아</span>
+              <span class="chip ind">60년 살림</span>
+              <span class="chip ind">자녀 서울 거주</span>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>자동으로 만들어진 클래스 초안</h3>
+            <p class="gen">"60년 김장 할머니의 자취생 3일 김치"
+              <small>재료 3개 · 화상 60분 · 보관법과 실패 대처법 포함. 어르신은 다음 통화에서 "좋다" 또는 "고쳐 달라"고만 답하시면 됩니다.</small></p>
+          </div>
+          <div class="panel">
+            <h3>안전망</h3>
+            <div class="safety"><span class="lamp" aria-hidden="true"><i></i><i class="y"></i><i></i></span><span>주의 단계 · 외로움 표현 반복, 발화량 3주째 감소 → 담당 복지사 확인 요청</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-ctrl">
+        <button class="btn btn-ghost btn-sm" id="hl" type="button" aria-pressed="false">대화에서 찾은 부분 표시하기</button>
+        <span>노랑 밑줄은 재능, 파랑 밑줄은 이야기입니다.</span>
+      </div>
+
+      <div class="steps" style="margin-top:48px">
+        <div class="step"><p class="n">1단계</p><h3>안부전화</h3><p>일반 전화로 주 2~3회. 지난 대화를 기억하고 사투리도 알아듣습니다.</p></div>
+        <div class="step"><p class="n">2단계</p><h3>인생레시피 발굴</h3><p>잘하시는 것과 그 재능에 얽힌 이야기를 함께 찾아냅니다.</p></div>
+        <div class="step"><p class="n">3단계</p><h3>클래스 자동 생성</h3><p>소개 글, 스토리 카드, 쇼츠, 사투리 자막까지 AI가 준비합니다.</p></div>
+        <div class="step"><p class="n">4단계</p><h3>청년·이웃과 만남</h3><p>화상 수업이나 동네 체험으로 만나고, 결과물에 음성으로 칭찬을 남깁니다.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="classes">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">이번 주 클래스</p>
+        <h2>레시피가 아니라 인생을 배웁니다</h2>
+        <p>모든 수업에는 그 지혜가 생겨난 이야기가 함께 있습니다. 화상으로 자취방에서, 또는 선생님 동네에서 직접 만나요.</p>
+      </div>
+      <div class="filters" role="group" aria-label="분야 선택">
+        <button type="button" data-f="all" aria-pressed="true">전체</button>
+        <button type="button" data-f="food" aria-pressed="false">자취 반찬</button>
+        <button type="button" data-f="work" aria-pressed="false">회사생활</button>
+        <button type="button" data-f="home" aria-pressed="false">살림·육아</button>
+        <button type="button" data-f="trip" aria-pressed="false">동네 체험</button>
+      </div>
+      <div class="classes" id="classList"></div>
+    </div>
+  </section>
+
+  <section class="block" id="match">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">고민으로 찾기</p>
+        <h2>관심사가 아니라 지금의 고민으로 선생님을 찾아 드려요</h2>
+        <p>청년의 고민 키워드와 선생님의 인생 이야기를 맞춰 봅니다. 고민을 하나 골라 보세요.</p>
+      </div>
+      <div class="match">
+        <div class="worries" role="group" aria-label="고민 선택" id="worries"></div>
+        <div class="result" id="result" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap two">
+      <div class="kit">
+        <p class="eyebrow" style="color:var(--gardenia)">가장 많이 찾는 패키지</p>
+        <h3>자취 첫 달 생존 키트</h3>
+        <ul>
+          <li><span>할머니 레시피 3종 (김치·계란장·멸치볶음)</span><span>영상 + 카드</span></li>
+          <li><span>일주일 청소 루틴</span><span>체크리스트</span></li>
+          <li><span>한 달 가계부 템플릿</span><span>시트</span></li>
+          <li><span>선생님과 화상 멘토링</span><span>1회 · 40분</span></li>
+        </ul>
+        <div class="total"><span>예시 가격</span><span><s>39,000원</s><b>19,900원</b></span></div>
+        <p style="font-size:14px;color:rgba(255,255,255,.7)">수강료의 절반 이상은 선생님께 돌아갑니다. 대학·지자체 제휴 시 무료로 제공됩니다.</p>
+      </div>
+      <div class="tracks">
+        <div class="track">
+          <div class="ttl"><b>청노</b><span>靑老 · 청년과 어르신</span></div>
+          <p>자취생, 사회초년생, 예비 부모가 어르신께 생활 지혜를 배웁니다. 3개월 시즌제 멘토링으로 루틴이 자리 잡을 때까지 함께합니다.</p>
+        </div>
+        <div class="track">
+          <div class="ttl"><b>노노</b><span>老老 · 어르신과 어르신</span></div>
+          <p>같은 단지, 같은 마을 어르신끼리 취미를 전하고 서로 안부를 챙깁니다. 가까이 살아도 서로 몰랐던 이웃이 선생님과 학생이 됩니다.</p>
+        </div>
+        <div class="track">
+          <div class="ttl"><b>동네 체험</b><span>소멸위기 지역</span></div>
+          <p>정선 김장, 순창 장 담그기, 영양 천연 염색처럼 선생님 동네에서 직접 만납니다. 청년에게는 여행이, 마을에는 새로운 방문객이 생깁니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">안심하고 만나는 방법</p>
+        <h2>선생님도 학생도 안전하게</h2>
+      </div>
+      <div class="trust">
+        <div><h3>검증된 선생님</h3><p>신원 확인과 함께 손주나 이웃에게 실제로 가르쳐 본 경험을 확인합니다. 첫 수업 후기는 모두 공개됩니다.</p></div>
+        <div><h3>안전한 만남</h3><p>화상 수업은 녹화본을 제공하고, 오프라인 수업은 복지관·마을회관 같은 검증된 공공장소에서만 열립니다.</p></div>
+        <div><h3>돌봄은 계속됩니다</h3><p>선생님이 수업에 오지 않으시거나 통화가 줄면 담당 복지사에게 먼저 알립니다. 최종 판단은 언제나 사람이 합니다.</p></div>
+      </div>
+      <div class="goals">
+        <table>
+          <thead><tr><th>시범 운영 목표 (예시)</th><th>측정 방법</th><th>목표</th></tr></thead>
+          <tbody>
+            <tr><td>선생님으로 활동하는 어르신</td><td>참여 어르신 중 강사·멘토 활동 비율</td><td>30% 이상</td></tr>
+            <tr><td>고립감이 줄어든 어르신</td><td>사회적 고립 척도 개선 비율</td><td>40% 이상</td></tr>
+            <tr><td>3개월 멘토링 완주</td><td>시즌제 멘토링 완주율</td><td>60%</td></tr>
+            <tr><td>동네 체험 방문 청년</td><td>소멸위기 지역 체험 클래스 방문자</td><td>연 500명</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="org">
+    <div class="wrap org">
+      <div>
+        <p class="eyebrow">기관 제휴</p>
+        <h2 style="font-size:clamp(26px,3.4vw,38px);margin-top:8px">우리 지역 어르신을 선생님으로 모십니다</h2>
+        <p style="color:var(--ink-soft);margin-top:12px">고독사 예방, 노인일자리, 청년 1인가구 지원을 한 번에 운영할 수 있습니다.</p>
+        <ul>
+          <li>지자체: 고독사 예방·노인맞춤돌봄 사업 연계</li>
+          <li>노인복지관·노인일자리 수행기관: 강사·멘토형 일자리</li>
+          <li>공공임대주택 단지: 이웃 간 노노 트랙 운영</li>
+          <li>대학: 신입생·자취생 생활 지원 프로그램</li>
+        </ul>
+      </div>
+      <form class="ask" id="ask">
+        <label for="orgType">기관 유형
+          <select id="orgType">
+            <option>지자체</option><option>복지관·노인일자리 수행기관</option><option>공공임대주택 운영기관</option><option>대학</option><option>기타</option>
+          </select>
+        </label>
+        <label for="orgName">기관명<input id="orgName" type="text" placeholder="예) ○○군 주민복지과"></label>
+        <label for="orgMsg">문의 내용<textarea id="orgMsg" rows="3" placeholder="예) 내년 상반기 시범 운영을 검토하고 있습니다."></textarea></label>
+        <button class="btn btn-primary" type="submit">제휴 문의 남기기</button>
+        <p class="sent" id="sent" hidden>시연용 페이지라 문의는 실제로 전송되지 않습니다.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>인생레시피 · 2026 AI·디지털 기반 사회문제 해결 챌린지 아이디어 부문 출품작</span>
+    <span>이 페이지의 인물·수업·가격·수치는 모두 예시입니다.</span>
+  </div>
+</footer>
+
+<script>
+const CLASSES = [
+  { f: 'food', init: '순', name: '이순자', age: 81, where: '강원 정선', title: '자취생 3일 김치', story: '"손주 셋, 이걸로 다 키웠어."', mode: '화상 · 같이 만들기', price: 9900, seats: 2, cap: 6 },
+  { f: 'food', init: '말', name: '김말례', age: 77, where: '전남 곡성', title: '냉장고 파먹기 반찬 5종', story: '"없는 살림에 있는 걸로 차리는 게 기술이지."', mode: '화상 · 녹화본 제공', price: 7900, seats: 4, cap: 8 },
+  { f: 'work', init: '영', name: '박영호', age: 62, where: '서울 강서', title: '총무 30년 차의 회사생활 기본기', story: '"전화 당겨받기부터 보고 요령까지, 아무도 안 알려 주잖아."', mode: '화상 멘토링 · 3개월', price: 29000, seats: 3, cap: 5 },
+  { f: 'home', init: '정', name: '최정숙', age: 74, where: '서울 노원', title: '첫 아이 이유식, 겁내지 마', story: '"쌀죽 한 숟갈부터야. 엄마가 편해야 애도 편해."', mode: '화상 · 예비 부모', price: 12000, seats: 5, cap: 8 },
+  { f: 'trip', init: '복', name: '정복순', age: 79, where: '전북 순창', title: '할머니 댁에서 장 담그기 1박 2일', story: '"메주는 기다림이야. 하룻밤 자고 가."', mode: '동네 체험 · 마을회관', price: 45000, seats: 6, cap: 10 },
+  { f: 'home', init: '덕', name: '윤덕희', age: 70, where: '부산 반여', title: '자취방 곰팡이·빨래 해결법', story: '"습한 동네 50년 살면 다 알게 돼."', mode: '화상 · 같이 해 보기', price: 6900, seats: 7, cap: 10 },
+  { f: 'trip', init: '옥', name: '서옥분', age: 83, where: '경북 영양', title: '쪽빛 천연 염색 체험', story: '"쪽 한 번 들이면 평생 안 빠져. 사람 정도 그래."', mode: '동네 체험 · 반나절', price: 25000, seats: 4, cap: 8 },
+  { f: 'work', init: '상', name: '한상철', age: 66, where: '인천 연수', title: '첫 월급 관리, 통장 쪼개기', story: '"은행 창구 35년, 돈 새는 구멍은 다 똑같아."', mode: '화상 멘토링 · 4회', price: 15000, seats: 2, cap: 6 },
+  { f: 'food', init: '금', name: '오금자', age: 75, where: '서울 강서', title: '계란 하나로 일주일 반찬', story: '"같은 동 총각한테 알려 줬더니 살이 올랐어."', mode: '노노 · 단지 내 경로당', price: 0, seats: 3, cap: 6 },
+];
+
+const list = document.getElementById('classList');
+function won(n) { return n === 0 ? '무료 (단지 이웃)' : n.toLocaleString('ko-KR') + '원'; }
+function renderClasses(filter) {
+  list.innerHTML = CLASSES.filter(c => filter === 'all' || c.f === filter).map(c => `
+    <article class="cls">
+      <div class="row">
+        <div class="teacher"><span class="avatar" aria-hidden="true">${c.init}</span>
+          <p class="name">${c.name} 선생님<span>${c.age}세 · ${c.where}</span></p></div>
+      </div>
+      <h3>${c.title}</h3>
+      <p class="story">${c.story}</p>
+      <div><span class="chip ind">${c.mode}</span></div>
+      <div class="foot"><span class="price">${won(c.price)}</span><span class="seats">남은 자리 ${c.seats}/${c.cap}</span></div>
+    </article>`).join('');
+}
+document.querySelectorAll('.filters button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.filters button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  renderClasses(b.dataset.f);
+}));
+renderClasses('all');
+
+const WORRIES = [
+  { q: '자취 첫 달인데 매일 라면만 먹어요', t: 0, why: ['자취 초보', '재료 적게', '반찬 보관'], because: '재료 3개로 사흘을 버티는 김치를 60년 동안 담가 오셨어요.' },
+  { q: '신입인데 회사에서 뭘 물어봐야 할지 모르겠어요', t: 2, why: ['사회초년생', '보고·전화 예절'], because: '총무팀에서 30년 동안 신입 사원을 맞이하셨어요.' },
+  { q: '곧 아이가 태어나는데 너무 막막해요', t: 3, why: ['예비 부모', '이유식', '불안감'], because: '네 남매와 손주 둘의 이유식을 직접 만드셨어요.' },
+  { q: '월급이 들어오면 어디로 사라지는지 모르겠어요', t: 7, why: ['첫 월급', '지출 관리'], because: '은행 창구에서 35년 동안 사람들의 통장을 봐 오셨어요.' },
+];
+const wBox = document.getElementById('worries');
+const res = document.getElementById('result');
+function pick(i) {
+  wBox.querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-pressed', String(k === i)));
+  const w = WORRIES[i], c = CLASSES[w.t];
+  res.innerHTML = `
+    <div class="teacher" style="display:flex;gap:12px;align-items:center">
+      <span class="avatar" aria-hidden="true">${c.init}</span>
+      <p class="name" style="font-weight:600">${c.name} 선생님<span style="display:block;font-weight:400;font-size:13px;color:var(--ink-soft)">${c.age}세 · ${c.where}</span></p>
+    </div>
+    <h3>${c.title}</h3>
+    <p class="quote">${c.story}</p>
+    <p class="why"><b>이렇게 이어졌어요</b> · ${w.because}<br>맞춘 키워드: ${w.why.join(', ')}</p>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px;flex-wrap:wrap">
+      <span class="chip ind">${c.mode}</span><span class="price">${won(c.price)}</span>
+    </div>`;
+}
+wBox.innerHTML = WORRIES.map(w => `<button type="button" aria-pressed="false">${w.q}</button>`).join('');
+wBox.querySelectorAll('button').forEach((b, i) => b.addEventListener('click', () => pick(i)));
+pick(0);
+
+const hl = document.getElementById('hl'), demo = document.getElementById('demo');
+hl.addEventListener('click', () => {
+  const on = demo.classList.toggle('on');
+  hl.setAttribute('aria-pressed', String(on));
+  hl.textContent = on ? '표시 끄기' : '대화에서 찾은 부분 표시하기';
+});
+
+document.getElementById('ask').addEventListener('submit', e => {
+  e.preventDefault();
+  document.getElementById('sent').hidden = false;
+});
+</script>
+</body>
+</html>
