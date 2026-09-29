@@ -1,4 +1,3 @@
-.vercel
-.env*
 m/.vercel
 m/.env*
+.env*
